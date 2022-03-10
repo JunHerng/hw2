@@ -21,9 +21,9 @@ def forward_euler_approx(q_initial, q_final, p_initial, delta):
     # Initialize arrays
     q_array = np.linspace(q0, qf, n)
     p_array = np.zeros(n)
+    p_array[0] = p0
 
     # Forward Euler Approx
-    p_array[0] = p0
     for i in range(1,n):
         q_array[i] = delta*p_array[i-1] + q_array[i-1]
         p_array[i] = -delta*omega**2*q_array[i-1] + p_array[i-1]
@@ -109,11 +109,15 @@ def total_error(step_sizes: list):
 
 #Total error plot
 def total_error_plot(step_sizes: list):
+    # Plot
     x, y = total_error(step_sizes)
     plt.plot(x, y, 'b', label = 'Total Error')
+
+    # Reference plots
     x_theo = np.linspace(0,0.2,100)
     plt.plot(x_theo, x_theo, 'r', linestyle='dashed', label = r'$+x$')
     plt.plot(x_theo, -x_theo, 'r', linestyle='dotted', label = r'$-x$')
+
     plt.xlabel(r'$\delta$')
     plt.ylabel('Total Error')
     plt.legend()
