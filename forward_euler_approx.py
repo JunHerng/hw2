@@ -31,7 +31,7 @@ def forward_euler_approx(q_initial, q_final, p_initial, delta):
     return(q_array, p_array)
 
 # Data for plotting
-deltas = [0.2, 0.1, 0.05, 0.01]
+deltas = [0.2, 0.1, 0.05, 0.032]
 q_start = 5
 q_end = 20
 q1, p1 = forward_euler_approx(5, 20, 0, deltas[0])
@@ -95,7 +95,8 @@ def phase_portrait(delta):
 
 # Total error calculation
 def total_error(step_sizes: list):
-    actual = -5*np.sin(np.pi/2)
+    # Endpoint taken to be 15
+    actual = -5*np.sin(15)
     print(f'actual: {actual}')
     errors = []
     for delta in step_sizes:
@@ -110,10 +111,9 @@ def total_error(step_sizes: list):
 def total_error_plot(step_sizes: list):
     x, y = total_error(step_sizes)
     plt.plot(x, y, 'b', label = 'Total Error')
-    x_quad = np.linspace(0,0.2,100)
-    y_quad = x_quad**2
-    plt.plot(x_quad, y_quad, 'r', linestyle='dashed', label = r'$+x^2$')
-    plt.plot(x_quad, -y_quad, 'r', linestyle='dotted', label = r'$-x^2$')
+    x_theo = np.linspace(0,0.2,100)
+    plt.plot(x_theo, x_theo, 'r', linestyle='dashed', label = r'$+x$')
+    plt.plot(x_theo, -x_theo, 'r', linestyle='dotted', label = r'$-x$')
     plt.xlabel(r'$\delta$')
     plt.ylabel('Total Error')
     plt.legend()
@@ -126,7 +126,6 @@ def total_error_plot(step_sizes: list):
 def comparison_plot():
     q, p = forward_euler_approx(5, 20, 0, deltas[2])
     t = np.linspace(0, int(q_end-q_start), int((q_end-q_start)//deltas[2]))
-    print(f't: {t}')
     plt.plot(t, q)
     x = np.arange(0,15,deltas[2])   # start,stop,step
     y = np.cos(x)
@@ -137,5 +136,5 @@ def comparison_plot():
 # multiplot_qt()
 # multiplot_pq()
 # phase_portrait(deltas[2])
-total_error_plot(np.arange(0.01, 0.2, 0.002))
+total_error_plot(np.arange(0.002, 0.2, 0.002))
 # comparison_plot()
