@@ -1,2 +1,6 @@
+# Virtual environment folders
 venv/
 .venv/
+
+# Compiled Latex docs
+*.pdf
